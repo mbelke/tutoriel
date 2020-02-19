@@ -1,0 +1,508 @@
+# ------------------------------------
+# structure for table 'categorie_intervention'
+# ------------------------------------
+
+DROP TABLE IF EXISTS categorie_intervention ;
+CREATE TABLE categorie_intervention (
+CI_CODE varchar(5) NOT NULL,
+CI_DESCRIPTION varchar(30) NOT NULL,
+PRIMARY KEY (CI_CODE)
+);
+# ------------------------------------
+# data for table 'categorie_intervention'
+# ------------------------------------
+
+INSERT INTO categorie_intervention (CI_CODE,CI_DESCRIPTION) VALUES
+('MSPS','Mission SPS'),
+('PS','Prompt secours');
+
+
+
+# ------------------------------------
+# structure for table 'intervention_equipe'
+# ------------------------------------
+
+DROP TABLE IF EXISTS intervention_equipe ;
+CREATE TABLE intervention_equipe (
+EL_ID int(11) NOT NULL,
+E_CODE int(11) NOT NULL,
+EE_ID smallint(6) NOT NULL,
+PRIMARY KEY (EL_ID, E_CODE, EE_ID),
+KEY E_CODE (E_CODE)
+);
+
+
+DROP TABLE IF EXISTS intervention_status ;
+CREATE TABLE intervention_status (
+IS_ID tinyint(4) NOT NULL,
+IS_CODE varchar(6) NOT NULL,
+IS_DESCRIPTION varchar(50) NOT NULL,
+IS_COLOR varchar(12) NOT NULL,
+PRIMARY KEY (IS_ID)
+);
+# ------------------------------------
+# data for table 'intervention_status'
+# ------------------------------------
+
+INSERT INTO intervention_status (IS_ID,IS_CODE,IS_DESCRIPTION,IS_COLOR) VALUES
+('1','DISPO','Disponible','green'),
+('2','INDISP','Indisponible','black'),
+('3','INTER','Engagé en intervention','red'),
+('4','RETD','Retour disponible','orange'),
+('5','SLL','Sur les lieux','yellow'),
+('6','TRANS','Transport','blue'),
+('7','PATR','En Patrouille','darkgreen');
+
+
+# ------------------------------------
+# structure for table 'type_intervention'
+# ------------------------------------
+
+DROP TABLE IF EXISTS type_intervention ;
+CREATE TABLE type_intervention (
+TI_CODE varchar(5) NOT NULL,
+TI_DESCRIPTION varchar(50) NOT NULL,
+CI_CODE varchar(5) NOT NULL,
+PRIMARY KEY (TI_CODE),
+KEY CI_CODE (CI_CODE)
+);
+# ------------------------------------
+# data for table 'type_intervention'
+# ------------------------------------
+
+INSERT INTO type_intervention (TI_CODE,TI_DESCRIPTION,CI_CODE) VALUES
+('AP','alerte aux populations','MSPS'),
+('ASSB','assèchement / épuisement dans un autre bâtiment','MSPS'),
+('ASSH','assèchement / épuisement dans une habitation','MSPS'),
+('AVP2R','AVP 2 roues seul','PS'),
+('AVPPV','AVP piéton / véhicule','PS'),
+('BACH','bachage de toiture','MSPS'),
+('BLDOM','bléssé à domicile avec / sans dégagement','PS'),
+('BLESR','blessé suite à une rixe','PS'),
+('BLLP','blessé lieu public avec / sans dégagement','PS'),
+('BRULG','brûlure grave','PS'),
+('BRULS','brûlure simple','PS'),
+('CHUT','chute','PS'),
+('CHUTA','chute / menace de chute d\'arbre','MSPS'),
+('CHUTO','chute / menace de chute autres objets','MSPS'),
+('CONVU','convulsions sur LP/NP ou VP','PS'),
+('DETRR','détresse respiratoire sur LP/NP ou VP','PS'),
+('DOULT','douleur thoracique sur LP / NP ou VP','PS'),
+('ERDF','déclenchement ERDF','MSPS'),
+('FNPC','déclenchement FNPC','MSPS'),
+('GLISS','glissement de terrain / coulée de boue','MSPS'),
+('INCO','inconscient ou PCI sur LP/NP ou VP','PS'),
+('INNO1','inondations / crues sauvetage ou mise en sécurité','MSPS'),
+('INNO2','inondations / crues reconnaissance','MSPS'),
+('INNO3','inondations / crues rondes','MSPS'),
+('INTOX','Intoxication CO ou alimentaire','PS'),
+('IVRED','personne en état d\'ébriété à domicile','PS'),
+('IVREL','personne en état d\'ébriété sur LP / NP ou VP','PS'),
+('MAL','malaise sur LP/NP ou VP','PS'),
+('MALC','malaise cardiaque sur LP / NP ou VP','PS'),
+('MALDO','malaise à domicile - bilan secouriste','PS'),
+('MALLP','malaise sur lieu public - bilan secouriste','PS'),
+('MALSP','malaise lié à une activité sportive LP/NP ou VP','PS'),
+('MANOE','manoeuvre ( formation de maintien des acquis)','MSPS'),
+('MEP','mise en place CAI / CEHU / PRI','MSPS'),
+('NETTO','nettoyage de chausée urgente','MSPS'),
+('ORSEC','déclenchement ORSEC','PS'),
+('PNRPA','personne ne répondant pas aux appels','PS'),
+('PREF','déclenchement préfecture - activation COD','MSPS'),
+('PROTB','protection de biens','MSPS'),
+('RECHP','recherche de personne','MSPS'),
+('REQUI','réquisition','MSPS'),
+('RUPTB','rupture de barrage ou digue','MSPS'),
+('SDIS','déclenchement SDIS','MSPS'),
+('SNCF','déclenchement SNCF','MSPS'),
+('TS','tentative de suicide','PS');
+
+
+# ------------------------------------
+# structure for table 'type_fonction_vehicule'
+# ------------------------------------
+
+DROP TABLE IF EXISTS type_fonction_vehicule ;
+CREATE TABLE type_fonction_vehicule (
+TFV_ID smallint(6) NOT NULL auto_increment,
+TFV_NAME varchar(40) NOT NULL,
+TFV_ORDER smallint(6) NOT NULL,
+TFV_DESCRIPTION varchar(200),
+PRIMARY KEY (TFV_ID)
+);
+# ------------------------------------
+# data for table 'type_fonction_vehicule'
+# ------------------------------------
+
+INSERT INTO type_fonction_vehicule (TFV_ID,TFV_NAME,TFV_ORDER,TFV_DESCRIPTION) VALUES
+('1','Groupe Électrogène','1',NULL),
+('2','Reconnaissance','2',NULL),
+('3','PC','3',NULL),
+('4','Soutien Sanitaire','4',NULL),
+('5','Commandement','5',NULL),
+('6','Pompage','6',NULL),
+('7','Nettoyage','7',NULL),
+('8','Cyno','8',NULL),
+('9','Communication','9',NULL),
+('10','Logistique','10',NULL),
+('11','Transport de personnels','11',NULL);
+
+# ------------------------------------
+# structure for table 'type_vehicule'
+# ------------------------------------
+
+DROP TABLE IF EXISTS type_vehicule ;
+CREATE TABLE type_vehicule (
+TV_CODE varchar(10) NOT NULL,
+TV_LIBELLE varchar(60) NOT NULL,
+TV_NB tinyint(4) DEFAULT '3' NOT NULL,
+TV_USAGE varchar(12) DEFAULT 'SECOURS' NOT NULL,
+TV_ICON varchar(150),
+PRIMARY KEY (TV_CODE)
+);
+# ------------------------------------
+# data for table 'type_vehicule'
+# ------------------------------------
+
+INSERT INTO type_vehicule (TV_CODE,TV_LIBELLE,TV_NB,TV_USAGE,TV_ICON) VALUES
+('ASSU','Ambulance de secours et de soins d\'urgence','3','SECOURS','images/vehicules/VSAV.png'),
+('CCFL','Camion citerne Forêt léger','2','FEU','images/vehicules/CCF.png'),
+('CCFM','Camion citerne Forêt moyen','4','FEU','images/vehicules/CCF.png'),
+('CCFS','Camion citerne Forêt super','4','FEU','images/vehicules/CCGC.png'),
+('CCGC','Camion citerne grande capacité','3','FEU','images/vehicules/CCGC.png'),
+('CTU','Camionnette tous usages','3','DIVERS','images/vehicules/VTU.png'),
+('EPA','Echelle pivotante automatique','3','FEU','images/vehicules/EPA.png'),
+('ERS','Embarcation de Reconnaissance et de Sauvetage','3','SECOURS','images/vehicules/BOAT1.png'),
+('FPT','Fourgon pompe tonne','8','FEU','images/vehicules/FPT.png'),
+('FPTL','Fourgon pompe tonne léger','6','FEU','images/vehicules/FPT.png'),
+('FPTLHR','Fourgon pompe tonne léger hors route','6','FEU','images/vehicules/FMOGP.png'),
+('GER','Groupe Electrogène Remorquable','0','DIVERS',NULL),
+('MOTO','Motocyclette','1','DIVERS','images/vehicules/MOTO.png'),
+('MPS','Moto de premiers secours','1','SECOURS','images/vehicules/MOTO.png'),
+('PCM','Poste de Commandement Mobile','2','DIVERS','images/vehicules/PC.png'),
+('QUAD','Véhicule quad','1','DIVERS','images/vehicules/QUAD.png'),
+('REM','Remorque','0','DIVERS','images/vehicules/REM.png'),
+('VCYN','Véhicule Cynotechnique','1','DIVERS','images/vehicules/CYNO.png'),
+('VELO','Vélo tout terrain','1','DIVERS','images/vehicules/VELO.png'),
+('VL','Véhicule léger','3','DIVERS','images/vehicules/VL.png'),
+('VLC','Véhicule Léger de Commandement','2','DIVERS','images/vehicules/VLCG.png'),
+('VLHR','Véhicule léger hors route','2','DIVERS','images/vehicules/VLHR.png'),
+('VPI','Véhicule polyvalent d\'intervention','3','DIVERS','images/vehicules/VPI.png'),
+('VPS','Véhicule de premier secours','3','SECOURS','images/vehicules/AMBULANCE1.png'),
+('VSAV','Véhicule de secours aux blessés','3','SECOURS','images/vehicules/VSAV.png'),
+('VSR','Véhicule de secours routier','3','SECOURS','images/vehicules/VSR.png'),
+('VTD','Véhicule technique déblaiement','2','DIVERS','images/vehicules/VSD.png'),
+('VTH','Véhicule technique hébergement','2','LOGISTIQUE','images/vehicules/CMIC.png'),
+('VTI','Véhicule technique soutien intendance','2','LOGISTIQUE','images/vehicules/VIRT.png'),
+('VTP','Véhicule de transport de personnel','9','DIVERS','images/vehicules/BUS.png'),
+('VTU','Véhicule tous usages','2','DIVERS','images/vehicules/VTU.png');
+
+# ------------------------------------
+# structure for table 'type_vehicule_role'
+# ------------------------------------
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------
+# structure for table 'type_vehicule'
+# ------------------------------------
+
+DROP TABLE IF EXISTS type_vehicule ;
+CREATE TABLE type_vehicule (
+TV_CODE varchar(10) NOT NULL,
+TV_LIBELLE varchar(60) NOT NULL,
+TV_NB tinyint(4) DEFAULT '3' NOT NULL,
+TV_USAGE varchar(12) DEFAULT 'SECOURS' NOT NULL,
+TV_ICON varchar(150),
+PRIMARY KEY (TV_CODE)
+);
+# ------------------------------------
+# data for table 'type_vehicule'
+# ------------------------------------
+
+INSERT INTO type_vehicule (TV_CODE,TV_LIBELLE,TV_NB,TV_USAGE,TV_ICON) VALUES
+('ASSU','Ambulance de secours et de soins d\'urgence','3','SECOURS','images/vehicules/VSAV.png'),
+('CCFL','Camion citerne Forêt léger','2','FEU','images/vehicules/CCF.png'),
+('CCFM','Camion citerne Forêt moyen','4','FEU','images/vehicules/CCF.png'),
+('CCFS','Camion citerne Forêt super','4','FEU','images/vehicules/CCGC.png'),
+('CCGC','Camion citerne grande capacité','3','FEU','images/vehicules/CCGC.png'),
+('CTU','Camionnette tous usages','3','DIVERS','images/vehicules/VTU.png'),
+('EPA','Echelle pivotante automatique','3','FEU','images/vehicules/EPA.png'),
+('ERS','Embarcation de Reconnaissance et de Sauvetage','3','SECOURS','images/vehicules/BOAT1.png'),
+('FPT','Fourgon pompe tonne','8','FEU','images/vehicules/FPT.png'),
+('FPTL','Fourgon pompe tonne léger','6','FEU','images/vehicules/FPT.png'),
+('FPTLHR','Fourgon pompe tonne léger hors route','6','FEU','images/vehicules/FMOGP.png'),
+('GER','Groupe Electrogène Remorquable','0','DIVERS',NULL),
+('MOTO','Motocyclette','1','DIVERS','images/vehicules/MOTO.png'),
+('MPS','Moto de premiers secours','1','SECOURS','images/vehicules/MOTO.png'),
+('PCM','Poste de Commandement Mobile','2','DIVERS','images/vehicules/PC.png'),
+('QUAD','Véhicule quad','1','DIVERS','images/vehicules/QUAD.png'),
+('REM','Remorque','0','DIVERS','images/vehicules/REM.png'),
+('VCYN','Véhicule Cynotechnique','1','DIVERS','images/vehicules/CYNO.png'),
+('VELO','Vélo tout terrain','1','DIVERS','images/vehicules/VELO.png'),
+('VL','Véhicule léger','3','DIVERS','images/vehicules/VL.png'),
+('VLC','Véhicule Léger de Commandement','2','DIVERS','images/vehicules/VLCG.png'),
+('VLHR','Véhicule léger hors route','2','DIVERS','images/vehicules/VLHR.png'),
+('VPI','Véhicule polyvalent d\'intervention','3','DIVERS','images/vehicules/VPI.png'),
+('VPS','Véhicule de premier secours','3','SECOURS','images/vehicules/AMBULANCE1.png'),
+('VSAV','Véhicule de secours aux blessés','3','SECOURS','images/vehicules/VSAV.png'),
+('VSR','Véhicule de secours routier','3','SECOURS','images/vehicules/VSR.png'),
+('VTD','Véhicule technique déblaiement','2','DIVERS','images/vehicules/VSD.png'),
+('VTH','Véhicule technique hébergement','2','LOGISTIQUE','images/vehicules/CMIC.png'),
+('VTI','Véhicule technique soutien intendance','2','LOGISTIQUE','images/vehicules/VIRT.png'),
+('VTP','Véhicule de transport de personnel','9','DIVERS','images/vehicules/BUS.png'),
+('VTU','Véhicule tous usages','2','DIVERS','images/vehicules/VTU.png');
+
+# ------------------------------------
+# 
+
+
+
+
+DROP TABLE IF EXISTS type_vehicule_role ;
+CREATE TABLE type_vehicule_role (
+TV_CODE varchar(10) NOT NULL,
+ROLE_ID tinyint(4) DEFAULT '0' NOT NULL,
+ROLE_NAME varchar(25) NOT NULL,
+PS_ID int(11) DEFAULT '0' NOT NULL,
+PRIMARY KEY (TV_CODE, ROLE_ID)
+);
+# ------------------------------------
+# data for table 'type_vehicule_role'
+# ------------------------------------
+
+INSERT INTO type_vehicule_role (TV_CODE,ROLE_ID,ROLE_NAME,PS_ID) VALUES
+('CCFL','1','chef d\'agrès','0'),
+('CCFL','2','conducteur','0'),
+('CCFM','1','chef d\'agrès','0'),
+('CCFM','2','conducteur','0'),
+('CCFM','3','équipier 1','0'),
+('CCFM','4','équipier 2','0'),
+('CCFS','1','chef d\'agrès','0'),
+('CCFS','2','conducteur','0'),
+('CCFS','3','équipier 1','0'),
+('CCFS','4','équipier 2','0'),
+('CCGC','1','chef d\'agrès','0'),
+('CCGC','2','conducteur','0'),
+('EPA','1','chef d\'agrès','0'),
+('EPA','2','conducteur','0'),
+('EPA','3','équipier','0'),
+('ERS','1','pilote','0'),
+('ERS','2','plongeur 1','0'),
+('ERS','3','plongeur 2','0'),
+('FPT','1','chef d\'agrès','0'),
+('FPT','2','conducteur','0'),
+('FPT','3','chef BAT','0'),
+('FPT','4','équipier BAT','0'),
+('FPT','5','chef BAL','0'),
+('FPT','6','équipier BAL','0'),
+('FPT','7','chef ATT','0'),
+('FPT','8','équipier ATT','0'),
+('FPTL','1','chef d\'agrès','0'),
+('FPTL','2','conducteur','0'),
+('FPTL','3','chef BAT','0'),
+('FPTL','4','équipier BAT','0'),
+('FPTL','5','chef BAL','0'),
+('FPTL','6','équipier BAL','0'),
+('FPTLHR','1','chef d\'agrès','0'),
+('FPTLHR','2','conducteur','0'),
+('FPTLHR','3','chef BAT','0'),
+('FPTLHR','4','équipier BAT','0'),
+('FPTLHR','5','chef BAL','0'),
+('FPTLHR','6','équipier BAL','0'),
+('PCM','1','chef d\'agrès','0'),
+('PCM','2','conducteur','0'),
+('QUAD','1','conducteur','0'),
+('VCYN','1','conducteur','0'),
+('VL','1','chef d\'agrès','0'),
+('VL','2','conducteur','0'),
+('VLC','1','chef d\'agrès','0'),
+('VLC','2','conducteur','0'),
+('VLHR','1','chef d\'agrès','0'),
+('VLHR','2','conducteur','0'),
+('VPI','1','chef d\'agrès','0'),
+('VPI','2','conducteur','0'),
+('VPI','3','équipier','0'),
+('VSAV','1','chef d\'agrès','0'),
+('VSAV','2','conducteur','0'),
+('VSAV','3','équipier','0'),
+('VSR','1','chef d\'agrès','0'),
+('VSR','2','conducteur','0'),
+('VSR','3','équipier','0'),
+('VTD','1','chef d\'agrès','0'),
+('VTD','2','conducteur','0'),
+('VTH','1','chef d\'agrès','0'),
+('VTH','2','conducteur','0'),
+('VTI','1','chef d\'agrès','0'),
+('VTI','2','conducteur','0'),
+('VTU','1','chef d\'agrès','0'),
+('VTU','2','conducteur','0'),
+('VTU','3','équipier','0');
+
+
+
+# ------------------------------------
+# structure for table 'vehicule'
+# ------------------------------------
+
+DROP TABLE IF EXISTS vehicule ;
+CREATE TABLE vehicule (
+V_ID int(11) DEFAULT '0' NOT NULL,
+TV_CODE varchar(10) NOT NULL,
+V_IMMATRICULATION varchar(15),
+V_COMMENT varchar(600),
+VP_ID varchar(5) DEFAULT 'OP' NOT NULL,
+V_MODELE varchar(20),
+V_KM int(11),
+V_KM_REVISION int(11),
+EQ_ID tinyint(4) DEFAULT '1' NOT NULL,
+V_ANNEE year(4),
+S_ID smallint(6) DEFAULT '4' NOT NULL,
+V_ASS_DATE date,
+V_CT_DATE date,
+V_REV_DATE date,
+V_EXTERNE tinyint(4),
+V_INVENTAIRE varchar(40),
+V_UPDATE_DATE date,
+V_UPDATE_BY int(11),
+V_INDICATIF varchar(20),
+V_FLAG1 tinyint(4) DEFAULT '0' NOT NULL,
+V_FLAG2 tinyint(4) DEFAULT '0' NOT NULL,
+V_FLAG3 tinyint(4) DEFAULT '0' NOT NULL,
+V_FLAG4 tinyint(4) DEFAULT '0' NOT NULL,
+AFFECTED_TO int(11),
+PRIMARY KEY (V_ID),
+KEY S_ID (S_ID),
+KEY AFFECTED_TO (AFFECTED_TO),
+KEY VP_ID (VP_ID),
+KEY V_ANNEE (V_ANNEE)
+);
+# ------------------------------------
+# data for table 'vehicule'
+# ------------------------------------
+
+INSERT INTO vehicule (V_ID,TV_CODE,V_IMMATRICULATION,V_COMMENT,VP_ID,V_MODELE,V_KM,V_KM_REVISION,EQ_ID,V_ANNEE,S_ID,V_ASS_DATE,V_CT_DATE,V_REV_DATE,V_EXTERNE,V_INVENTAIRE,V_UPDATE_DATE,V_UPDATE_BY,V_INDICATIF,V_FLAG1,V_FLAG2,V_FLAG3,V_FLAG4,AFFECTED_TO) VALUES
+('1','VSAV','1234-XX-YY','','OP','Renault Master','10000','0','1','2018','0',NULL,NULL,NULL,'0','',NULL,NULL,'VSAV 1','0','0','0','0',NULL),
+('2','CCFM','7890-WW-ZZ','','OP','Renaut CAMIVA','24000','0','2','2015','0',NULL,NULL,NULL,'0','',NULL,NULL,'Moyen 1','0','0','0','0',NULL),
+('3','FPTL','DFGH-11-88','','OP','Renault Midlum 200','45600','0','1','2010','0',NULL,NULL,NULL,'0','',NULL,NULL,'FPTL 1','0','0','0','0',NULL);
+
+# ------------------------------------
+
+
+
+INSERT INTO vehicule_position (VP_ID,VP_LIBELLE,VP_OPERATIONNEL) VALUES
+('ARM','armement à compléter','0'),
+('CAR','plein de carburant','0'),
+('DET','détruit','-1'),
+('EAU','remplissage tonne','0'),
+('HUI','niveau d\'huile','0'),
+('IND','autre indisponibilité','1'),
+('LIM','usage limité','2'),
+('OP','opérationnel','3'),
+('PAN','en panne','1'),
+('PNE','pression des pneumatiques','0'),
+('PRE','en prêt','1'),
+('REF','réformé','-1'),
+('REP','en réparation','1'),
+('REV','en révision','1'),
+('VEN','vendu','-1'),
+('VOL','volé','-1'),
+('PER','perdu','-1'),
+('RENDU','rendu','-1');
+
+
+# ------------------------------------
+# structure for table 'demande_renfort_vehicule'
+# ------------------------------------
+
+DROP TABLE IF EXISTS demande_renfort_vehicule ;
+CREATE TABLE demande_renfort_vehicule (
+E_CODE int(11) NOT NULL,
+TV_CODE varchar(10) DEFAULT 'ALL' NOT NULL,
+NB_VEHICULES int(11) DEFAULT '0' NOT NULL,
+POINT_REGROUPEMENT varchar(250),
+DEMANDE_SPECIFIQUE varchar(600),
+PRIMARY KEY (E_CODE, TV_CODE)
+);
+# ------------------------------------
+# data for table 'demande_renfort_vehicule'
+# ------------------------------------
+
+
+
+# ------------------------------------
+# structure for table 'evenement_vehicule'
+# ------------------------------------
+
+DROP TABLE IF EXISTS evenement_vehicule ;
+CREATE TABLE evenement_vehicule (
+E_CODE int(11) DEFAULT '0' NOT NULL,
+EH_ID smallint(6) DEFAULT '1' NOT NULL,
+V_ID int(11) DEFAULT '0' NOT NULL,
+EV_KM smallint(6),
+EV_DATE_DEBUT date,
+EV_DATE_FIN date,
+EV_DEBUT time,
+EV_FIN time,
+EV_DUREE float,
+EE_ID smallint(6),
+TFV_ID smallint(6),
+PRIMARY KEY (E_CODE, EH_ID, V_ID),
+KEY V_ID (V_ID)
+);
+
+
+
+# ------------------------------------
+# structure for table 'equipe'
+# ------------------------------------
+
+DROP TABLE IF EXISTS equipe ;
+CREATE TABLE equipe (
+EQ_ID smallint(6) DEFAULT '0' NOT NULL,
+EQ_NOM varchar(30) NOT NULL,
+EQ_ORDER tinyint(4) DEFAULT '0' NOT NULL,
+PRIMARY KEY (EQ_ID),
+KEY EQ_ID (EQ_ID)
+);
+# ------------------------------------
+# data for table 'equipe'
+# ------------------------------------
+
+INSERT INTO equipe (EQ_ID,EQ_NOM,EQ_ORDER) VALUES
+('3','Secourisme','3'),
+('4','Permis','4'),
+('5','Pompier','5');
+
+
+
+# ------------------------------------
+# structure for table 'evenement_equipe'
+# ------------------------------------
+
+DROP TABLE IF EXISTS evenement_equipe ;
+CREATE TABLE evenement_equipe (
+E_CODE int(11) NOT NULL,
+EE_ID int(11) NOT NULL,
+EE_NAME varchar(30) NOT NULL,
+EE_ORDER tinyint(4) DEFAULT '1' NOT NULL,
+EE_DESCRIPTION varchar(300),
+EE_SIGNATURE tinyint(4) DEFAULT '0' NOT NULL,
+EE_ADDRESS varchar(150),
+EE_ICON varchar(100),
+IS_ID tinyint(4) DEFAULT '1' NOT NULL,
+EE_ID_RADIO varchar(12),
+PRIMARY KEY (E_CODE, EE_ID)
+);
+# ------------------------------------
+# data for table 'evenement_equipe'
+
+
+
