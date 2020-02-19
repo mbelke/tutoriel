@@ -1,0 +1,9 @@
+﻿SI=acteurs + taches + Données
+   roles     actions 
+
+1.Strategie
+2.Metier	Processus	BPMN
+3.Fonctionnelle 
+4.Applicative
+5.Technique
+
